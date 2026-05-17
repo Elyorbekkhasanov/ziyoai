@@ -1,25 +1,46 @@
+'use client'
+import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
+
 export default function Home() {
+  const { isSignedIn } = useUser()
+
   return (
-    <main className="min-h-screen bg-[#080C14] text-white flex flex-col items-center justify-center px-6">
-      <div className="text-center">
-        <div className="inline-flex items-center gap-2 bg-[#00C896]/10 border border-[#00C896]/20 text-[#00C896] px-4 py-2 rounded-full text-sm mb-8">
-          <span className="w-2 h-2 bg-[#00C896] rounded-full inline-block"></span>
-          O'zbek tilida · Bepul · Amaliy
+    <main style={{minHeight: '100vh', background: '#080C14', color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      
+      <div style={{position: 'fixed', top: 0, width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 32px', background: 'rgba(8,12,20,0.8)'}}>
+        <div style={{fontSize: '22px', fontWeight: 'bold'}}>
+          ziyo<span style={{color: '#00C896'}}>AI</span>
         </div>
-
-        <h1 className="text-5xl font-bold mb-6 leading-tight">
-          Sun'iy intellektni <br />
-          <span className="text-[#00C896]">o'zbek tilida</span> o'rganing
-        </h1>
-
-        <p className="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
-          ChatGPT, Claude, Midjourney va boshqa AI vositalarni o'zbek tilida o'rganing.
-        </p>
-
-        <button className="bg-[#00C896] text-black font-bold px-8 py-4 rounded-xl text-lg hover:bg-[#00b085] transition-colors">
-          Bepul boshlash →
-        </button>
+        {isSignedIn ? (
+          <UserButton />
+        ) : (
+          <SignInButton mode="modal">
+            <button style={{background: '#00C896', color: 'black', fontWeight: 'bold', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer'}}>
+              Kirish
+            </button>
+          </SignInButton>
+        )}
       </div>
+
+      <h1 style={{fontSize: '48px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center'}}>
+        ziyo<span style={{color: '#00C896'}}>AI</span>
+      </h1>
+      <p style={{color: '#888', marginBottom: '40px'}}>
+        O'zbek tilida AI ta'lim platformasi
+      </p>
+      
+      {isSignedIn ? (
+        <a href="/dashboard" style={{background: '#00C896', color: 'black', fontWeight: 'bold', padding: '14px 32px', borderRadius: '12px', textDecoration: 'none', fontSize: '16px'}}>
+          Kurslarni ko'rish
+        </a>
+      ) : (
+        <SignInButton mode="modal">
+          <button style={{background: '#00C896', color: 'black', fontWeight: 'bold', padding: '14px 32px', borderRadius: '12px', border: 'none', cursor: 'pointer', fontSize: '16px'}}>
+            Bepul boshlash
+          </button>
+        </SignInButton>
+      )}
+
     </main>
-  );
+  )
 }
